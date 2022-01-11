@@ -8,9 +8,7 @@
   * @package    Pdfclw
   * @subpackage Pdfclw/includes
   */
-
 class Pdfclw_Order {
-
 	/**
 	 * Order pickup phone.
 	 *

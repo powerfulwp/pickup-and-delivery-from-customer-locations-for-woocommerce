@@ -200,16 +200,17 @@ class Pdfclw_Admin
     {
         wp_nonce_field( basename( __FILE__ ), 'pdfclw_nonce' );
         $address = '';
+        $order_id = $order->get_id();
         // Get the location data if it's already been entered.
-        $first_name = get_post_meta( $order->ID, '_pdfclw_pickup_first_name', true );
-        $last_name = get_post_meta( $order->ID, '_pdfclw_pickup_last_name', true );
-        $company = get_post_meta( $order->ID, '_pdfclw_pickup_company', true );
-        $address_1 = get_post_meta( $order->ID, '_pdfclw_pickup_address_1', true );
-        $address_2 = get_post_meta( $order->ID, '_pdfclw_pickup_address_2', true );
-        $city = get_post_meta( $order->ID, '_pdfclw_pickup_city', true );
-        $postcode = get_post_meta( $order->ID, '_pdfclw_pickup_postcode', true );
-        $country = get_post_meta( $order->ID, '_pdfclw_pickup_country', true );
-        $state = get_post_meta( $order->ID, '_pdfclw_pickup_state', true );
+        $first_name = get_post_meta( $order_id, '_pdfclw_pickup_first_name', true );
+        $last_name = get_post_meta( $order_id, '_pdfclw_pickup_last_name', true );
+        $company = get_post_meta( $order_id, '_pdfclw_pickup_company', true );
+        $address_1 = get_post_meta( $order_id, '_pdfclw_pickup_address_1', true );
+        $address_2 = get_post_meta( $order_id, '_pdfclw_pickup_address_2', true );
+        $city = get_post_meta( $order_id, '_pdfclw_pickup_city', true );
+        $postcode = get_post_meta( $order_id, '_pdfclw_pickup_postcode', true );
+        $country = get_post_meta( $order_id, '_pdfclw_pickup_country', true );
+        $state = get_post_meta( $order_id, '_pdfclw_pickup_state', true );
         $array = array(
             'first_name' => $first_name,
             'last_name'  => $last_name,
@@ -272,11 +273,11 @@ class Pdfclw_Admin
         ),
         );
         echo  '<div class="order_data_column pdfclw_pickup" style="width:100%">' ;
-        if ( get_post_type( $order->ID ) === 'shop_order' ) {
+        if ( get_post_type( $order_id ) === 'shop_order' ) {
             echo  '<h3>' . esc_html( __( 'Pickup from Customer', 'pdfclw' ) ) . '
 					<a href="#" class="edit_address">' . esc_html( __( 'Edit', 'woocommerce' ) ) . '</a>
 				</h3>
-				<div class="address">' . $address . '</div>' ;
+				<div class="address">' . wp_kses_post( $address ) . '</div>' ;
         }
         echo  '<div class="edit_address">' ;
         // Display form.
@@ -289,7 +290,7 @@ class Pdfclw_Admin
                     $field['id'] = '_pdfclw_pickup_' . $key;
                 }
                 $field_name = '_pdfclw_pickup_' . $key;
-                $field['value'] = get_post_meta( $order->ID, $field_name, true );
+                $field['value'] = get_post_meta( $order_id, $field_name, true );
                 switch ( $field['type'] ) {
                     case 'select':
                         woocommerce_wp_select( $field );
@@ -310,7 +311,7 @@ class Pdfclw_Admin
      * @since 1.1.0
      * @return statement
      */
-    static function pdfclw_admin_plugin_bar()
+    public function pdfclw_admin_plugin_bar()
     {
         return '<div class="pdfclw_admin_bar">' . esc_html( __( 'Developed by', 'pdfclw' ) ) . ' <a href="https://powerfulwp.com/" target="_blank">PowerfulWP</a> | <a href="https://powerfulwp.com/pickup-and-delivery-from-customer-locations-for-woocommerce/" target="_blank" >' . esc_html( __( 'Premium', 'pdfclw' ) ) . '</a> | <a href="https://powerfulwp.com/docs/pickup-and-delivery-from-customer-locations-for-woocommerce/" target="_blank" >' . esc_html( __( 'Documents', 'pdfclw' ) ) . '</a></div>';
     }
@@ -374,7 +375,7 @@ class Pdfclw_Admin
         ?>
 		<p>
 			<?php 
-        echo  pdfclw_admin_premium_feature( '' ) . sprintf( __( 'Show the order pickup locations on %s plugin.', 'pdfclw' ), sprintf( __( '<a href="%s" target="_blank" >Local delivery drivers for woocommerce</a>', 'pdfclw' ), 'https://powerfulwp.com/local-delivery-drivers-for-woocommerce-premium/' ) ) ;
+        echo  wp_kses_post( pdfclw_admin_premium_feature( '' ) . sprintf( __( 'Show the order pickup locations on %s plugin.', 'pdfclw' ), sprintf( __( '<a href="%s" target="_blank" >Local delivery drivers for woocommerce</a>', 'pdfclw' ), 'https://powerfulwp.com/local-delivery-drivers-for-woocommerce-premium/' ) ) ) ;
         ?>
 		</p>
 		<?php 
@@ -391,7 +392,7 @@ class Pdfclw_Admin
         ?>
 		<p>
 			<?php 
-        echo  pdfclw_admin_premium_feature( '' ) . esc_html( __( 'Enable pickup from customers for all products or for specific products.', 'pdfclw' ) ) ;
+        echo  wp_kses_post( pdfclw_admin_premium_feature( '' ) ) . esc_html( __( 'Enable pickup from customers for all products or for specific products.', 'pdfclw' ) ) ;
         ?>
 		</p>
 		<?php 
@@ -509,7 +510,7 @@ class Pdfclw_Admin
 				</th>
 				<td>
 					<input type="checkbox" <?php 
-        checked( '1', $pdfclw_pickup_permission, true );
+        checked( '1', esc_attr( $pdfclw_pickup_permission ), true );
         ?> name="pdfclw_pickup_permission" id="pdfclw_pickup_permission" value="1">
 					<?php 
         echo  esc_html( __( 'Enable pickup from customer locations for all category products.', 'pdfclw' ) ) ;
@@ -545,7 +546,7 @@ class Pdfclw_Admin
         echo  esc_html( __( 'General Settings', 'pdfclw' ) ) ;
         ?></h1>
 				<?php 
-        echo  self::pdfclw_admin_plugin_bar() ;
+        echo  wp_kses_post( self::pdfclw_admin_plugin_bar() ) ;
         echo  '<hr class="wp-header-end">' ;
         settings_fields( 'pdfclw' );
         do_settings_sections( 'pdfclw' );
@@ -563,7 +564,7 @@ class Pdfclw_Admin
      * @param object $post post object.
      * @return string
      */
-    function pdfclw_save_pickup_meta( $post_id, $post )
+    public function pdfclw_save_pickup_meta( $post_id, $post )
     {
         // Return if the user doesn't have edit permissions.
         if ( !current_user_can( 'edit_post', $post_id ) ) {
@@ -571,7 +572,7 @@ class Pdfclw_Admin
         }
         // Verify this came from the our screen and with proper authorization,
         // because save_post can be triggered at other times.
-        if ( !isset( $_POST['_pdfclw_pickup_address_1'] ) || !wp_verify_nonce( $_POST['pdfclw_nonce'], basename( __FILE__ ) ) ) {
+        if ( !isset( $_POST['_pdfclw_pickup_address_1'] ) || !isset( $_POST['pdfclw_nonce'] ) || !wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['pdfclw_nonce'] ) ), basename( __FILE__ ) ) ) {
             return $post_id;
         }
         // Now that we're authenticated, time to save the data.
@@ -619,7 +620,7 @@ class Pdfclw_Admin
     {
         // Verify this came from the our screen and with proper authorization,
         // because save_post can be triggered at other times.
-        if ( !isset( $_POST['_pdfclw_pickup_address_1'] ) || !wp_verify_nonce( $_POST['pdfclw_nonce'], basename( __FILE__ ) ) ) {
+        if ( !isset( $_POST['_pdfclw_pickup_address_1'] ) || !isset( $_POST['pdfclw_nonce'] ) || !wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['pdfclw_nonce'] ) ), basename( __FILE__ ) ) ) {
             return $order_id;
         }
         $first_name = ( isset( $_POST['_pdfclw_pickup_first_name'] ) ? sanitize_text_field( wp_unslash( $_POST['_pdfclw_pickup_first_name'] ) ) : '' );
@@ -702,7 +703,7 @@ class Pdfclw_Admin
                     $address = '<a href="https://www.google.com/maps/place/' . pdfclw_format_address( 'map_address', $array ) . '" target="_blank">' . $pickup_from . pdfclw_format_address( 'address_line', $array ) . '</a>';
                 }
                 
-                echo  $address ;
+                echo  wp_kses_post( $address ) ;
                 break;
         }
     }

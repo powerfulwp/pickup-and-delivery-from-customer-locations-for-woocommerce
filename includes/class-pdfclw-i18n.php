@@ -24,7 +24,7 @@
  * @subpackage Pdfclw/includes
  * @author     powerfulwp <apowerfulwp@gmail.com>
  */
-class Pdfclw_i18n {
+class Pdfclw_I18n {
 
 
 	/**
