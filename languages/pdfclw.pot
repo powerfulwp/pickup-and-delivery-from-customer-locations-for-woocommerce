@@ -1,0 +1,259 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: BUG-EMAIL-ADDR <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: yyyy-mm-dd hh:mm+0000\n"
+"PO-Revision-Date: 2022-01-14 13:06+0200\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"X-Generator: Eazy Po 0.9.5.3\n"
+
+#: admin/class-pdfclw-admin.php:112
+msgid "Pickup from Customers"
+msgstr ""
+
+#: admin/class-pdfclw-admin.php:113
+msgid "Settings"
+msgstr ""
+
+#: admin/class-pdfclw-admin.php:148
+msgid "Select an option&hellip;"
+msgstr ""
+
+#: admin/class-pdfclw-admin.php:151
+msgid "Name (required)"
+msgstr ""
+
+#: admin/class-pdfclw-admin.php:152
+msgid "Value (required)"
+msgstr ""
+
+#: admin/class-pdfclw-admin.php:199
+msgid "No pickup address set."
+msgstr ""
+
+#: admin/class-pdfclw-admin.php:204
+msgid "First name"
+msgstr ""
+
+#: admin/class-pdfclw-admin.php:208
+msgid "Last name"
+msgstr ""
+
+#: admin/class-pdfclw-admin.php:212
+msgid "Company"
+msgstr ""
+
+#: admin/class-pdfclw-admin.php:216
+msgid "Address line 1"
+msgstr ""
+
+#: admin/class-pdfclw-admin.php:220
+msgid "Address line 2"
+msgstr ""
+
+#: admin/class-pdfclw-admin.php:224
+msgid "City"
+msgstr ""
+
+#: admin/class-pdfclw-admin.php:228
+msgid "Postcode / ZIP"
+msgstr ""
+
+#: admin/class-pdfclw-admin.php:232
+msgid "Country / Region"
+msgstr ""
+
+#: admin/class-pdfclw-admin.php:236
+msgid "Select a country / region&hellip;"
+msgstr ""
+
+#: admin/class-pdfclw-admin.php:239
+msgid "State / County"
+msgstr ""
+
+#: admin/class-pdfclw-admin.php:247
+msgid "Pickup from Customer"
+msgstr ""
+
+#: admin/class-pdfclw-admin.php:248
+msgid "Edit"
+msgstr ""
+
+#: admin/class-pdfclw-admin.php:291
+msgid "Developed by"
+msgstr ""
+
+#: admin/class-pdfclw-admin.php:291
+msgid "Premium"
+msgstr ""
+
+#: admin/class-pdfclw-admin.php:291
+msgid "Documents"
+msgstr ""
+
+#: admin/class-pdfclw-admin.php:314 admin/class-pdfclw-admin.php:467
+#: admin/class-pdfclw-admin.php:502
+msgid "Pickup from customers"
+msgstr ""
+
+#: admin/class-pdfclw-admin.php:322
+msgid "Pickup location is mandatory"
+msgstr ""
+
+#: admin/class-pdfclw-admin.php:330
+msgid "Pickup limitations"
+msgstr ""
+
+#: admin/class-pdfclw-admin.php:338
+msgid "Third-party plugins support"
+msgstr ""
+
+#: admin/class-pdfclw-admin.php:360
+#, php-format
+msgid "Show the order pickup locations on %s and %s plugins."
+msgstr ""
+
+#: admin/class-pdfclw-admin.php:362
+#, php-format
+msgid ""
+"<a href=\"%s\" target=\"_blank\" >Local Delivery Drivers for WooCommerce</a>"
+msgstr ""
+
+#: admin/class-pdfclw-admin.php:367
+#, php-format
+msgid "<a href=\"%s\" target=\"_blank\" >Delievry Drivers Manager</a>"
+msgstr ""
+
+#: admin/class-pdfclw-admin.php:391
+msgid "Enable pickup for all products."
+msgstr ""
+
+#: admin/class-pdfclw-admin.php:392
+msgid "Enable pickup for specific products."
+msgstr ""
+
+#: admin/class-pdfclw-admin.php:401
+msgid "Enable pickup from customers for all products or specific products."
+msgstr ""
+
+#: admin/class-pdfclw-admin.php:418
+msgid "Set pickup from customers as mandatory on checkout."
+msgstr ""
+
+#: admin/class-pdfclw-admin.php:434
+msgid "Enable pickup from customers on checkout."
+msgstr ""
+
+#: admin/class-pdfclw-admin.php:448 admin/class-pdfclw-admin.php:506
+msgid "Enable pickup from customer locations for all category products."
+msgstr ""
+
+#: admin/class-pdfclw-admin.php:468
+msgid "Enable pickup from customer locations for this product."
+msgstr ""
+
+#: admin/class-pdfclw-admin.php:534
+msgid "General Settings"
+msgstr ""
+
+#: admin/class-pdfclw-admin.php:722
+msgid "Pickup"
+msgstr ""
+
+#: includes/functions.php:249 includes/functions.php:254
+msgid "Premium Feature"
+msgstr ""
+
+#: includes/functions.php:255
+msgid "You Discovered a Premium Feature!"
+msgstr ""
+
+#: includes/functions.php:256
+msgid "Upgrading to Premium will unlock it."
+msgstr ""
+
+#: includes/functions.php:257
+msgid "UNLOCK PREMIUM"
+msgstr ""
+
+#: public/class-pdfclw-public.php:131
+msgid "Do you need a pickup?"
+msgstr ""
+
+#: public/class-pdfclw-public.php:136 public/class-pdfclw-public.php:147
+msgid "PickUp from a different address?"
+msgstr ""
+
+#: public/class-pdfclw-public.php:217 public/class-pdfclw-public.php:221
+#: public/class-pdfclw-public.php:225 public/class-pdfclw-public.php:233
+#: public/class-pdfclw-public.php:237 public/class-pdfclw-public.php:241
+#, php-format
+msgid "%s is a required field."
+msgstr ""
+
+#: public/class-pdfclw-public.php:217
+msgid "Pickup First name"
+msgstr ""
+
+#: public/class-pdfclw-public.php:221
+msgid "Pickup Last name"
+msgstr ""
+
+#: public/class-pdfclw-public.php:225 public/class-pdfclw-public.php:229
+msgid "Pickup Country"
+msgstr ""
+
+#: public/class-pdfclw-public.php:229
+#, php-format
+msgid "%s is not a valid country code."
+msgstr ""
+
+#: public/class-pdfclw-public.php:233
+msgid "Pickup Street address"
+msgstr ""
+
+#: public/class-pdfclw-public.php:237
+msgid "Pickup City"
+msgstr ""
+
+#: public/class-pdfclw-public.php:241 public/class-pdfclw-public.php:250
+#: public/class-pdfclw-public.php:254
+msgid "Pickup Zip"
+msgstr ""
+
+#: public/class-pdfclw-public.php:250
+#, php-format
+msgid ""
+"%1$s is not valid. You can look up the correct Eircode <a target=\"_blank\" "
+"href=\"%2$s\">here</a>."
+msgstr ""
+
+#: public/class-pdfclw-public.php:254
+#, php-format
+msgid "%s is not a valid postcode / ZIP."
+msgstr ""
+
+#: public/class-pdfclw-public.php:273
+#, php-format
+msgid "%1$s is not valid. Please enter one of the following: %2$s"
+msgstr ""
+
+#: public/class-pdfclw-public.php:273
+msgid "Pickup State"
+msgstr ""
+
+#: public/class-pdfclw-public.php:349 public/class-pdfclw-public.php:364
+#: public/class-pdfclw-public.php:382
+msgid "Pickup:"
+msgstr ""

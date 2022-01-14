@@ -179,11 +179,11 @@ class Pdfclw_Admin
         );
         wp_localize_script( 'wc-admin-order-meta-boxes', 'woocommerce_admin_meta_boxes_order', array(
             'countries'              => wp_json_encode( array_merge( WC()->countries->get_allowed_country_states(), WC()->countries->get_shipping_country_states() ) ),
-            'i18n_select_state_text' => esc_attr__( 'Select an option&hellip;', 'woocommerce' ),
+            'i18n_select_state_text' => esc_attr__( 'Select an option&hellip;', 'pdfclw' ),
             'default_country'        => ( isset( $default_location['country'] ) ? $default_location['country'] : '' ),
             'default_state'          => ( isset( $default_location['state'] ) ? $default_location['state'] : '' ),
-            'placeholder_name'       => esc_attr__( 'Name (required)', 'woocommerce' ),
-            'placeholder_value'      => esc_attr__( 'Value (required)', 'woocommerce' ),
+            'placeholder_name'       => esc_attr__( 'Name (required)', 'pdfclw' ),
+            'placeholder_value'      => esc_attr__( 'Value (required)', 'pdfclw' ),
         ) );
         echo  '<div id="order_data" class="panel woocommerce-order-data">' ;
         $this->admin_order_pickup_location( $post );
@@ -230,44 +230,44 @@ class Pdfclw_Admin
         }
         $pickup_fields = array(
             'first_name' => array(
-            'label' => __( 'First name', 'woocommerce' ),
+            'label' => __( 'First name', 'pdfclw' ),
             'show'  => false,
         ),
             'last_name'  => array(
-            'label' => __( 'Last name', 'woocommerce' ),
+            'label' => __( 'Last name', 'pdfclw' ),
             'show'  => false,
         ),
             'company'    => array(
-            'label' => __( 'Company', 'woocommerce' ),
+            'label' => __( 'Company', 'pdfclw' ),
             'show'  => false,
         ),
             'address_1'  => array(
-            'label' => __( 'Address line 1', 'woocommerce' ),
+            'label' => __( 'Address line 1', 'pdfclw' ),
             'show'  => false,
         ),
             'address_2'  => array(
-            'label' => __( 'Address line 2', 'woocommerce' ),
+            'label' => __( 'Address line 2', 'pdfclw' ),
             'show'  => false,
         ),
             'city'       => array(
-            'label' => __( 'City', 'woocommerce' ),
+            'label' => __( 'City', 'pdfclw' ),
             'show'  => false,
         ),
             'postcode'   => array(
-            'label' => __( 'Postcode / ZIP', 'woocommerce' ),
+            'label' => __( 'Postcode / ZIP', 'pdfclw' ),
             'show'  => false,
         ),
             'country'    => array(
-            'label'   => __( 'Country / Region', 'woocommerce' ),
+            'label'   => __( 'Country / Region', 'pdfclw' ),
             'show'    => false,
             'type'    => 'select',
             'class'   => 'js_field-country select short',
             'options' => array(
-            '' => __( 'Select a country / region&hellip;', 'woocommerce' ),
+            '' => __( 'Select a country / region&hellip;', 'pdfclw' ),
         ) + WC()->countries->get_shipping_countries(),
         ),
             'state'      => array(
-            'label' => __( 'State / County', 'woocommerce' ),
+            'label' => __( 'State / County', 'pdfclw' ),
             'class' => 'js_field-state select short',
             'show'  => false,
         ),
@@ -275,7 +275,7 @@ class Pdfclw_Admin
         echo  '<div class="order_data_column pdfclw_pickup" style="width:100%">' ;
         if ( get_post_type( $order_id ) === 'shop_order' ) {
             echo  '<h3>' . esc_html( __( 'Pickup from Customer', 'pdfclw' ) ) . '
-					<a href="#" class="edit_address">' . esc_html( __( 'Edit', 'woocommerce' ) ) . '</a>
+					<a href="#" class="edit_address">' . esc_html( __( 'Edit', 'pdfclw' ) ) . '</a>
 				</h3>
 				<div class="address">' . wp_kses_post( $address ) . '</div>' ;
         }
@@ -326,7 +326,7 @@ class Pdfclw_Admin
     {
         register_setting( 'pdfclw', 'pdfclw_pickup_enable' );
         register_setting( 'pdfclw', 'pdfclw_pickup_mandatory' );
-        register_setting( 'pdfclw', 'pdfclw_pickup_permission' );
+        register_setting( 'pdfclw', 'pdfclw_pickup_limitation' );
         add_settings_section(
             'pdfclw_setting_section',
             '',
@@ -342,15 +342,15 @@ class Pdfclw_Admin
         );
         add_settings_field(
             'pdfclw_pickup_mandatory',
-            __( 'Pickup address is mandatory', 'pdfclw' ),
+            __( 'Pickup location is mandatory', 'pdfclw' ),
             array( $this, 'pdfclw_pickup_mandatory' ),
             'pdfclw',
             'pdfclw_setting_section'
         );
         add_settings_field(
-            'pdfclw_pickup_permission',
-            __( 'Pickup permissions', 'pdfclw' ),
-            array( $this, 'pdfclw_pickup_permission' ),
+            'pdfclw_pickup_limitation',
+            __( 'Pickup limitations', 'pdfclw' ),
+            array( $this, 'pdfclw_pickup_limitation' ),
             'pdfclw',
             'pdfclw_setting_section'
         );
@@ -375,7 +375,7 @@ class Pdfclw_Admin
         ?>
 		<p>
 			<?php 
-        echo  wp_kses_post( pdfclw_admin_premium_feature( '' ) . sprintf( __( 'Show the order pickup locations on %s plugin.', 'pdfclw' ), sprintf( __( '<a href="%s" target="_blank" >Local delivery drivers for woocommerce</a>', 'pdfclw' ), 'https://powerfulwp.com/local-delivery-drivers-for-woocommerce-premium/' ) ) ) ;
+        echo  pdfclw_admin_premium_feature( '' ) . sprintf( __( 'Show the order pickup locations on %s and %s plugins.', 'pdfclw' ), sprintf( __( '<a href="%s" target="_blank" >Local Delivery Drivers for WooCommerce</a>' ), 'https://powerfulwp.com/local-delivery-drivers-for-woocommerce-premium/' ), sprintf( __( '<a href="%s" target="_blank" >Delievry Drivers Manager</a>' ), 'https://powerfulwp.com/delivery-drivers-manager/' ) ) ;
         ?>
 		</p>
 		<?php 
@@ -386,13 +386,13 @@ class Pdfclw_Admin
      *
      * @since 1.0.0
      */
-    public function pdfclw_pickup_permission()
+    public function pdfclw_pickup_limitation()
     {
-        $pdfclw_pickup_permission = get_option( 'pdfclw_pickup_permission', '' );
+        $pdfclw_pickup_limitation = get_option( 'pdfclw_pickup_limitation', '' );
         ?>
 		<p>
 			<?php 
-        echo  wp_kses_post( pdfclw_admin_premium_feature( '' ) ) . esc_html( __( 'Enable pickup from customers for all products or for specific products.', 'pdfclw' ) ) ;
+        echo  pdfclw_admin_premium_feature( '' ) . esc_html( __( 'Enable pickup from customers for all products or specific products.', 'pdfclw' ) ) ;
         ?>
 		</p>
 		<?php 
@@ -449,7 +449,7 @@ class Pdfclw_Admin
     {
         ?>
 		<div class="form-field">
-			<input type="checkbox" name="pdfclw_pickup_permission" id="pdfclw_pickup_permission" value="1">
+			<input type="checkbox" name="pdfclw_pickup_limitation" id="pdfclw_pickup_limitation" value="1">
 			<?php 
         echo  esc_html( __( 'Enable pickup from customer locations for all category products.', 'pdfclw' ) ) ;
         ?>
@@ -465,11 +465,11 @@ class Pdfclw_Admin
     public function add_custom_shipping_option_to_products()
     {
         global  $post, $product ;
-        $pdfclw_pickup_permission = esc_attr( get_post_meta( $post->ID, 'pdfclw_pickup_permission', true ) );
+        $pdfclw_pickup_limitation = esc_attr( get_post_meta( $post->ID, 'pdfclw_pickup_limitation', true ) );
         echo  '</div><div class="options_group">' ;
         woocommerce_wp_checkbox( array(
-            'id'          => 'pdfclw_pickup_permission',
-            'value'       => ( '1' === $pdfclw_pickup_permission ? '1' : '0' ),
+            'id'          => 'pdfclw_pickup_limitation',
+            'value'       => ( '1' === $pdfclw_pickup_limitation ? '1' : '0' ),
             'label'       => esc_html( __( 'Pickup from customers', 'pdfclw' ) ),
             'description' => esc_html( __( 'Enable pickup from customer locations for this product.', 'pdfclw' ) ),
             'cbvalue'     => '1',
@@ -484,8 +484,8 @@ class Pdfclw_Admin
      */
     public function save_custom_shipping_option_to_products( $post_id )
     {
-        $pdfclw_pickup_permission = ( isset( $_POST['pdfclw_pickup_permission'] ) ? sanitize_text_field( wp_unslash( $_POST['pdfclw_pickup_permission'] ) ) : '0' );
-        update_post_meta( $post_id, 'pdfclw_pickup_permission', esc_attr( $pdfclw_pickup_permission ) );
+        $pdfclw_pickup_limitation = ( isset( $_POST['pdfclw_pickup_limitation'] ) ? sanitize_text_field( wp_unslash( $_POST['pdfclw_pickup_limitation'] ) ) : '0' );
+        update_post_meta( $post_id, 'pdfclw_pickup_limitation', esc_attr( $pdfclw_pickup_limitation ) );
     }
     
     /**
@@ -499,7 +499,7 @@ class Pdfclw_Admin
         // Getting term ID.
         $term_id = $term->term_id;
         // retrieve the existing value(s) for this meta field.
-        $pdfclw_pickup_permission = get_term_meta( $term_id, 'pdfclw_pickup_permission', true );
+        $pdfclw_pickup_limitation = get_term_meta( $term_id, 'pdfclw_pickup_limitation', true );
         ?>
 			<tr class="form-field">
 				<th scope="row" valign="top">
@@ -510,8 +510,8 @@ class Pdfclw_Admin
 				</th>
 				<td>
 					<input type="checkbox" <?php 
-        checked( '1', esc_attr( $pdfclw_pickup_permission ), true );
-        ?> name="pdfclw_pickup_permission" id="pdfclw_pickup_permission" value="1">
+        checked( '1', esc_attr( $pdfclw_pickup_limitation ), true );
+        ?> name="pdfclw_pickup_limitation" id="pdfclw_pickup_limitation" value="1">
 					<?php 
         echo  esc_html( __( 'Enable pickup from customer locations for all category products.', 'pdfclw' ) ) ;
         ?>
@@ -528,8 +528,8 @@ class Pdfclw_Admin
      */
     public function save_product_category( $term_id )
     {
-        $pdfclw_pickup_permission = filter_input( INPUT_POST, 'pdfclw_pickup_permission' );
-        update_term_meta( $term_id, 'pdfclw_pickup_permission', $pdfclw_pickup_permission );
+        $pdfclw_pickup_limitation = filter_input( INPUT_POST, 'pdfclw_pickup_limitation' );
+        update_term_meta( $term_id, 'pdfclw_pickup_limitation', $pdfclw_pickup_limitation );
     }
     
     /**

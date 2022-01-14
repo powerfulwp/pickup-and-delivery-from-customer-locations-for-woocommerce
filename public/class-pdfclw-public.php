@@ -128,12 +128,12 @@ class Pdfclw_Public {
 								<label class="woocommerce-form__label woocommerce-form__label-for-checkbox checkbox">
 									<input type="hidden" name="pickup_location_exist" id="pickup_location_exist" value="0">
 									<input id="pickup-from-option-checkbox" class="woocommerce-form__input woocommerce-form__input-checkbox input-checkbox"  type="checkbox" name="pickup-from-option-checkbox" value="1" />
-									<span><?php esc_html_e( 'Do you need a pickup?', 'woocommerce' ); ?></span>
+									<span><?php esc_html_e( 'Do you need a pickup?', 'pdfclw' ); ?></span>
 								</label>
 								<div style="display:none" id="pickup-from-different-address-checkbox_wrap">
 									<label class="woocommerce-form__label woocommerce-form__label-for-checkbox checkbox">
 										<input id="pickup-from-different-address-checkbox" class="woocommerce-form__input woocommerce-form__input-checkbox input-checkbox"  type="checkbox" name="pickup_from_different_address" value="1" />
-										<span><?php esc_html_e( 'PickUp from a different address?', 'woocommerce' ); ?></span>
+										<span><?php esc_html_e( 'PickUp from a different address?', 'pdfclw' ); ?></span>
 									</label>
 								</div>
 							</h3>
@@ -144,7 +144,7 @@ class Pdfclw_Public {
 								<label class="woocommerce-form__label woocommerce-form__label-for-checkbox checkbox">
 									<input id="pickup-from-different-address-checkbox" class="woocommerce-form__input woocommerce-form__input-checkbox input-checkbox"  type="checkbox" name="pickup_from_different_address" value="1" />
 									<input type="hidden" name="pickup_location_exist" value="1">
-									<span><?php esc_html_e( 'PickUp from a different address?', 'woocommerce' ); ?></span>
+									<span><?php esc_html_e( 'PickUp from a different address?', 'pdfclw' ); ?></span>
 								</label>
 							</h3>
 						<?php
@@ -247,11 +247,11 @@ class Pdfclw_Public {
 								switch ( $pickup_country ) {
 									case 'IE':
 										/* translators: %1$s: field name, %2$s finder.eircode.ie URL */
-										$postcode_validation_notice = sprintf( __( '%1$s is not valid. You can look up the correct Eircode <a target="_blank" href="%2$s">here</a>.', 'woocommerce' ), '<strong>' . __( 'Pickup Zip', 'pdfclw' ) . '</strong>', 'https://finder.eircode.ie' );
+										$postcode_validation_notice = sprintf( __( '%1$s is not valid. You can look up the correct Eircode <a target="_blank" href="%2$s">here</a>.', 'pdfclw' ), '<strong>' . __( 'Pickup Zip', 'pdfclw' ) . '</strong>', 'https://finder.eircode.ie' );
 										break;
 									default:
 										/* translators: %s: field name */
-										$postcode_validation_notice = sprintf( __( '%s is not a valid postcode / ZIP.', 'woocommerce' ), '<strong>' . __( 'Pickup Zip', 'pdfclw' ) . '</strong>' );
+										$postcode_validation_notice = sprintf( __( '%s is not a valid postcode / ZIP.', 'pdfclw' ), '<strong>' . __( 'Pickup Zip', 'pdfclw' ) . '</strong>' );
 								}
 								wc_add_notice( $postcode_validation_notice, 'error' );
 							}
