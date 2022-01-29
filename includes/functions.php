@@ -226,7 +226,7 @@ function pdfclw_admin_premium_feature( $value )
 						  <h2>' . esc_html( __( 'Premium Feature', 'pdfclw' ) ) . '</h2>
 						  <p>' . esc_html( __( 'You Discovered a Premium Feature!', 'pdfclw' ) ) . '</p>
 						  <p>' . esc_html( __( 'Upgrading to Premium will unlock it.', 'pdfclw' ) ) . '</p>
-						  <a target="_blank" href="https://powerfulwp.com/pickup-and-delivery-from-customer-locations-for-woocommerce-premium#pricing" class="pdfclw_premium_buynow">' . esc_html( __( 'UNLOCK PREMIUM', 'pdfclw' ) ) . '</a>
+						  <a target="_blank" href="https://powerfulwp.com/pickup-and-delivery-from-customer-locations-for-woocommerce#pricing" class="pdfclw_premium_buynow">' . esc_html( __( 'UNLOCK PREMIUM', 'pdfclw' ) ) . '</a>
 						  </div>
 					  </div>';
     }

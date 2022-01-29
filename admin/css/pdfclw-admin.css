@@ -22,7 +22,8 @@
 #order_data .order_data_column .form-field._pdfclw_pickup_last_name_field,
 #order_data .order_data_column .form-field._pdfclw_pickup_phone_field,
 #order_data .order_data_column .form-field._pdfclw_pickup_postcode_field,
-#order_data .order_data_column .form-field._pdfclw_pickup_state_field {
+#order_data .order_data_column .form-field._pdfclw_pickup_state_field,
+#order_data .order_data_column .form-field._pdfclw_pickup_latitude_field {
     float: right;
     clear: right;
 }

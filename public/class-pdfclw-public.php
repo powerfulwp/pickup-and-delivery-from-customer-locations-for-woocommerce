@@ -128,7 +128,7 @@ class Pdfclw_Public {
 								<label class="woocommerce-form__label woocommerce-form__label-for-checkbox checkbox">
 									<input type="hidden" name="pickup_location_exist" id="pickup_location_exist" value="0">
 									<input id="pickup-from-option-checkbox" class="woocommerce-form__input woocommerce-form__input-checkbox input-checkbox"  type="checkbox" name="pickup-from-option-checkbox" value="1" />
-									<span><?php esc_html_e( 'Do you need a pickup?', 'pdfclw' ); ?></span>
+									<span><?php esc_html_e( 'Do you need pickup?', 'pdfclw' ); ?></span>
 								</label>
 								<div style="display:none" id="pickup-from-different-address-checkbox_wrap">
 									<label class="woocommerce-form__label woocommerce-form__label-for-checkbox checkbox">
@@ -329,6 +329,7 @@ class Pdfclw_Public {
 				update_post_meta( $order_id, '_pdfclw_pickup_postcode', $pickup_postcode );
 				update_post_meta( $order_id, '_pdfclw_pickup_country', $pickup_country );
 				update_post_meta( $order_id, '_pdfclw_pickup_state', $pickup_state );
+
 			}
 		}
 	}
@@ -344,7 +345,7 @@ class Pdfclw_Public {
 	 */
 	public function pickup_on_emails( $order, $sent_to_admin, $plain_text, $email ) {
 		$pickup  = new Pdfclw_Order();
-		$address = $pickup->order_pickup_loction( 'address', $order, 0, '' );
+		$address = $pickup->order_pickup_loction( '', 'address', $order, 0 );
 		if ( '' !== $address ) {
 			echo '<p class="pdfclw_order_pickup"><strong>' . esc_html( __( 'Pickup:', 'pdfclw' ) ) . '</strong><br>' . wp_kses_post( $address );
 		}
@@ -357,9 +358,11 @@ class Pdfclw_Public {
 	 * @return void
 	 */
 	public function pickup_on_thankyou( $order_id ) {
-		$order   = wc_get_order( $order_id );
+		$order = wc_get_order( $order_id );
+
 		$pickup  = new Pdfclw_Order();
-		$address = $pickup->order_pickup_loction( 'address', $order, 0, '' );
+		$address = $pickup->order_pickup_loction( '', 'address', $order, 0 );
+
 		if ( '' !== $address ) {
 			echo '<p class="pdfclw_order_pickup"><strong>' . esc_html( __( 'Pickup:', 'pdfclw' ) ) . '</strong><br>' . wp_kses_post( $address );
 		}
@@ -377,7 +380,7 @@ class Pdfclw_Public {
 	public function pickup_on_details_after_order_table( $order, $sent_to_admin = '', $plain_text = '', $email = '' ) {
 		if ( is_wc_endpoint_url( 'view-order' ) ) {
 			$pickup  = new Pdfclw_Order();
-			$address = $pickup->order_pickup_loction( 'address', $order, 0, '' );
+			$address = $pickup->order_pickup_loction( '', 'address', $order, 0 );
 			if ( '' !== $address ) {
 				echo '<p class="pdfclw_order_pickup"><strong>' . esc_html( __( 'Pickup:', 'pdfclw' ) ) . '</strong><br>' . wp_kses_post( $address );
 			}

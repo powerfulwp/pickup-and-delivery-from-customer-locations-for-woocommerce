@@ -188,7 +188,7 @@ msgid "UNLOCK PREMIUM"
 msgstr ""
 
 #: public/class-pdfclw-public.php:131
-msgid "Do you need a pickup?"
+msgid "Do you need pickup?"
 msgstr ""
 
 #: public/class-pdfclw-public.php:136 public/class-pdfclw-public.php:147

@@ -186,7 +186,7 @@ class Pdfclw_Admin
             'placeholder_value'      => esc_attr__( 'Value (required)', 'pdfclw' ),
         ) );
         echo  '<div id="order_data" class="panel woocommerce-order-data">' ;
-        $this->admin_order_pickup_location( $post );
+        $this->get_order_pickup_location_data_column( $post );
         echo  '</div>' ;
     }
     
@@ -196,35 +196,15 @@ class Pdfclw_Admin
      * @param object $order order object.
      * @return void
      */
-    public function admin_order_pickup_location( $order )
+    public function get_order_pickup_location_data_column( $order )
     {
         wp_nonce_field( basename( __FILE__ ), 'pdfclw_nonce' );
-        $address = '';
         $order_id = $order->get_id();
-        // Get the location data if it's already been entered.
-        $first_name = get_post_meta( $order_id, '_pdfclw_pickup_first_name', true );
-        $last_name = get_post_meta( $order_id, '_pdfclw_pickup_last_name', true );
-        $company = get_post_meta( $order_id, '_pdfclw_pickup_company', true );
-        $address_1 = get_post_meta( $order_id, '_pdfclw_pickup_address_1', true );
-        $address_2 = get_post_meta( $order_id, '_pdfclw_pickup_address_2', true );
-        $city = get_post_meta( $order_id, '_pdfclw_pickup_city', true );
-        $postcode = get_post_meta( $order_id, '_pdfclw_pickup_postcode', true );
-        $country = get_post_meta( $order_id, '_pdfclw_pickup_country', true );
-        $state = get_post_meta( $order_id, '_pdfclw_pickup_state', true );
-        $array = array(
-            'first_name' => $first_name,
-            'last_name'  => $last_name,
-            'company'    => $company,
-            'street_1'   => $address_1,
-            'street_2'   => $address_2,
-            'city'       => $city,
-            'zip'        => $postcode,
-            'country'    => ( '' !== $country ? WC()->countries->countries[$country] : '' ),
-            'state'      => $state,
-        );
-        if ( '' !== $address_1 && '' !== $city ) {
-            $address = pdfclw_format_address( 'address', $array );
-        }
+        // Get customer pickup address.
+        $pickup = new Pdfclw_Order();
+        $address = $pickup->get_order_customer_pickup_location( $order_id, 'address' );
+        $map_address = $pickup->get_order_customer_pickup_location( $order_id, 'map_address' );
+        $coordinates = $pickup->get_pickup_geocode( $order_id );
         if ( '' === $address ) {
             $address = __( 'No pickup address set.', 'pdfclw' );
         }
@@ -271,14 +251,31 @@ class Pdfclw_Admin
             'class' => 'js_field-state select short',
             'show'  => false,
         ),
+            'latitude'   => array(
+            'label' => __( 'Latitude', 'plfdd' ),
+            'show'  => false,
+        ),
+            'longitude'  => array(
+            'label' => __( 'Longitude', 'plfdd' ),
+            'show'  => false,
+        ),
         );
         echo  '<div class="order_data_column pdfclw_pickup" style="width:100%">' ;
+        
         if ( get_post_type( $order_id ) === 'shop_order' ) {
             echo  '<h3>' . esc_html( __( 'Pickup from Customer', 'pdfclw' ) ) . '
 					<a href="#" class="edit_address">' . esc_html( __( 'Edit', 'pdfclw' ) ) . '</a>
 				</h3>
-				<div class="address">' . wp_kses_post( $address ) . '</div>' ;
+				<div class="address">
+					<a href="https://www.google.com/maps/place/' . esc_attr( $map_address ) . '" target="_blank">' . wp_kses_post( $address ) . '</a>' ;
+            if ( false !== $coordinates && is_array( $coordinates ) ) {
+                echo  '<p>' . esc_html( __( 'Coordinates:', 'pdfclw' ) ) . '<br>
+							<a href="https://www.google.com/maps/place/' . esc_attr( $coordinates[0] . ',' . $coordinates[1] ) . '" target="_blank">' . esc_attr( $coordinates[0] . ',' . $coordinates[1] ) . '</a>
+						</p>' ;
+            }
+            echo  '</div>' ;
         }
+        
         echo  '<div class="edit_address">' ;
         // Display form.
         if ( !empty($pickup_fields) ) {
@@ -327,6 +324,8 @@ class Pdfclw_Admin
         register_setting( 'pdfclw', 'pdfclw_pickup_enable' );
         register_setting( 'pdfclw', 'pdfclw_pickup_mandatory' );
         register_setting( 'pdfclw', 'pdfclw_pickup_limitation' );
+        register_setting( 'pdfclw', 'pdfclw_google_api_key_server' );
+        register_setting( 'pdfclw', 'pdfclw_pickup_geocode' );
         add_settings_section(
             'pdfclw_setting_section',
             '',
@@ -354,6 +353,20 @@ class Pdfclw_Admin
             'pdfclw',
             'pdfclw_setting_section'
         );
+        add_settings_field(
+            'pdfclw_google_api_keys',
+            __( 'Google API key', 'pdfclw' ),
+            array( $this, 'pdfclw_google_api_keys' ),
+            'pdfclw',
+            'pdfclw_setting_section'
+        );
+        add_settings_field(
+            'pdfclw_pickup_geocode',
+            __( 'Pickup Coordinates', 'pdfclw' ),
+            array( $this, 'pdfclw_pickup_geocode' ),
+            'pdfclw',
+            'pdfclw_setting_section'
+        );
         if ( pdfclw_is_free() ) {
             add_settings_field(
                 'pdfclw_third_party_plugins',
@@ -370,12 +383,66 @@ class Pdfclw_Admin
      *
      * @since 1.0.0
      */
+    public function pdfclw_google_api_keys()
+    {
+        ?>
+		<p>
+			<span class="description" id="pdfclw-gooogle-api-key-description">
+				<?php 
+        echo  pdfclw_admin_premium_feature( '' ) . esc_html( __( 'Create and add a Google API Key for Distance Matrix API and Geocoding API. ( Set "IP addresses" for the key application restriction on the Google API console )', 'pdfclw' ) ) ;
+        ?>
+			</span>
+		</p>
+		<?php 
+    }
+    
+    /**
+     * New order.
+     *
+     * @param int    $order_id order number.
+     * @param object $order order object.
+     */
+    public function new_order( $order_id, $order )
+    {
+        $pickup = new Pdfclw_Order();
+        if ( 'customer' == $pickup->pickup_type( '', $order ) ) {
+            do_action( 'pdfclw_new_order_pickup_from_customer', $order );
+        }
+        // Add coordinates to customer pickup location.
+        $pdfclw_pickup_geocode = get_option( 'pdfclw_pickup_geocode', '' );
+        
+        if ( '1' === $pdfclw_pickup_geocode ) {
+            $pickup = new Pdfclw_Order();
+            $pickup->set_pickup_geocode( $order_id );
+        }
+    
+    }
+    
+    /**
+     * Plugin settings.
+     *
+     * @since 1.0.0
+     */
+    public function pdfclw_pickup_geocode()
+    {
+        if ( pdfclw_is_free() ) {
+            echo  pdfclw_admin_premium_feature( '' ) . esc_html( __( 'Enable auto-add pickup coordinates to order.', 'pdfclw' ) ) ;
+        }
+        ?>
+		<?php 
+    }
+    
+    /**
+     * Plugin settings.
+     *
+     * @since 1.0.0
+     */
     public function pdfclw_third_party_plugins()
     {
         ?>
 		<p>
 			<?php 
-        echo  pdfclw_admin_premium_feature( '' ) . sprintf( __( 'Show the order pickup locations on %s and %s plugins.', 'pdfclw' ), sprintf( __( '<a href="%s" target="_blank" >Local Delivery Drivers for WooCommerce</a>' ), 'https://powerfulwp.com/local-delivery-drivers-for-woocommerce-premium/' ), sprintf( __( '<a href="%s" target="_blank" >Delievry Drivers Manager</a>' ), 'https://powerfulwp.com/delivery-drivers-manager/' ) ) ;
+        echo  pdfclw_admin_premium_feature( '' ) . sprintf( __( 'Show the order pickup locations on %1$s and %2$s plugins.', 'pdfclw' ), sprintf( __( '<a href="%s" target="_blank" >Local Delivery Drivers for WooCommerce</a>' ), 'https://powerfulwp.com/local-delivery-drivers-for-woocommerce-premium/' ), sprintf( __( '<a href="%s" target="_blank" >Delievry Drivers Manager</a>' ), 'https://powerfulwp.com/delivery-drivers-manager/' ) ) ;
         ?>
 		</p>
 		<?php 
@@ -587,6 +654,8 @@ class Pdfclw_Admin
         $events_meta['_pdfclw_pickup_country'] = ( isset( $_POST['_pdfclw_pickup_country'] ) ? sanitize_text_field( wp_unslash( $_POST['_pdfclw_pickup_country'] ) ) : '' );
         $events_meta['_pdfclw_pickup_state'] = ( isset( $_POST['_pdfclw_pickup_state'] ) ? sanitize_text_field( wp_unslash( $_POST['_pdfclw_pickup_state'] ) ) : '' );
         $events_meta['_pdfclw_pickup_phone'] = ( isset( $_POST['_pdfclw_pickup_phone'] ) ? sanitize_text_field( wp_unslash( $_POST['_pdfclw_pickup_phone'] ) ) : '' );
+        $events_meta['_pdfclw_pickup_latitude'] = ( isset( $_POST['_pdfclw_pickup_latitude'] ) ? sanitize_text_field( wp_unslash( $_POST['_pdfclw_pickup_latitude'] ) ) : '' );
+        $events_meta['_pdfclw_pickup_longitude'] = ( isset( $_POST['_pdfclw_pickup_longitude'] ) ? sanitize_text_field( wp_unslash( $_POST['_pdfclw_pickup_longitude'] ) ) : '' );
         // Cycle through the $events_meta array.
         // Note, in this example we just have one item, but this is helpful if you have multiple.
         foreach ( $events_meta as $key => $value ) {
@@ -723,7 +792,7 @@ class Pdfclw_Admin
             $reordered_columns[$key] = $column;
             if ( 'billing_address' === $key ) {
                 // Inserting after "Status" column.
-                $reordered_columns['pdfclw_order_pickup'] = __( 'Pickup', 'pdfclw' );
+                $reordered_columns['pdfclw_order_pickup'] = __( 'Pickup from Customer', 'pdfclw' );
             }
         }
         return $reordered_columns;

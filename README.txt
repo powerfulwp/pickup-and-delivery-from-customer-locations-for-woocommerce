@@ -9,19 +9,20 @@ Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Are you running a delivery service business? Let customers add their pickup location on the WooCommerce checkout.
+Are you running a delivery service business?
+Let customers add their pickup location on the WooCommerce checkout.
 
 == Description ==
-## Are you running a delivery service business? Let customers add their pickup location on the WooCommerce checkout.
+Developed by [PowerfulWP](https://powerfulwp.com/) | [Premium](https://powerfulwp.com/pickup-and-delivery-from-customer-locations-for-woocommerce/) | [Documents](https://powerfulwp.com/docs/pickup-and-delivery-from-customer-locations-for-woocommerce/)
 
-Developed by [PowerfulWP](https://powerfulwp.com/) | [Premium](https://powerfulwp.com/pickup-and-delivery-from-customer-locations-for-woocommerce/)
 
 ## Pickup & Delivery from Customer Locations for WooCommerce
-* Let customers add their pickup location on checkout. The pickup location is shown on the order thank you page, emails, and order details on their account.
-* Let admin set the pickup settings, view and edit the pickup location on the order page on the WordPress admin panel.
+* Let customers add their pickup location on checkout.
+  The pickup location is shown on the order thank you page, emails, and customers account order details.
+* Let admin set the pickup settings, view and edit the pickup location on the admin panel order page.
 
 ## WHO CAN USE THIS PLUGIN? =
-Any business that needs to pick up from a customer location can use this plugin.
+Any business that needs to pick up from a customer locations can use this plugin.
 For example:
 
 * Delivery service companies.
@@ -40,9 +41,7 @@ Enable pickup from customers for all products or specific products.
 * [Delivery Drivers manager Premium](https://powerfulwp.com/delivery-drivers-manager/) plugin.
 
 [SVG created by fontawesome - www.fontawesome.com](https://fontawesome.com/license)
-[Design vector created by freepik - www.freepik.com](https://www.freepik.com/vectors/design)
-
-* The images include premium features.
+[People vector created by pch.vector – www.freepik.com](https://www.freepik.com/vectors/people)
 
 == Installation ==
 1. Make a backup of your website and database
@@ -55,8 +54,8 @@ Enable pickup from customers for all products or specific products.
 
 == Screenshots ==
 1. Pickup location on WooCommerce checkout.
-1. Premium - General Settings.
-1. Premium - Pickup limitations.
+1. Pickup location on the admin panel order details.
+
 
 == Changelog ==
 = 1.0.0 =
