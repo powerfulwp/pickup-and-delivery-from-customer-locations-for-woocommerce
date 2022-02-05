@@ -185,7 +185,6 @@ class Pdfclw
             2
         );
         $this->loader->add_action( 'woocommerce_admin_order_data_after_billing_address', $plugin_admin, 'get_order_pickup_location_data_column' );
-        $this->loader->add_action( 'woocommerce_process_shop_order_meta', $plugin_admin, 'process_shop_order_meta' );
         /**
          * Order custom columns
          */
@@ -212,9 +211,10 @@ class Pdfclw
         /**
          * New order.
          */
+        $plugin_order = new Pdfclw_Order();
         $this->loader->add_action(
             'woocommerce_new_order',
-            $plugin_admin,
+            $plugin_order,
             'new_order',
             2,
             2

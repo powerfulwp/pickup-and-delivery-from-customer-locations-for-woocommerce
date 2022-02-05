@@ -303,7 +303,29 @@ class Pdfclw_Order {
 		}
 	}
 
+	/**
+	 * New order.
+	 *
+	 * @param int    $order_id order number.
+	 * @param object $order order object.
+	 */
+	public function new_order( $order_id, $order ) {
 
+		$pickup = new Pdfclw_Order();
+		if ( 'customer' == $pickup->pickup_type( '', $order ) ) {
+			do_action( 'pdfclw_new_order_pickup_from_customer', $order );
+		}
+
+		$address_1 = get_post_meta( $order_id, '_pdfclw_pickup_address_1', true );
+		if ( '' !== $address_1 ) {
+			// Add coordinates to customer pickup location.
+			$pdfclw_pickup_geocode = get_option( 'pdfclw_pickup_geocode', '' );
+			if ( '1' === $pdfclw_pickup_geocode ) {
+				$pickup->set_pickup_geocode( $order_id );
+			}
+		}
+
+	}
 }
 
 

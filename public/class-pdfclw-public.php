@@ -330,6 +330,9 @@ class Pdfclw_Public {
 				update_post_meta( $order_id, '_pdfclw_pickup_country', $pickup_country );
 				update_post_meta( $order_id, '_pdfclw_pickup_state', $pickup_state );
 
+				$orders = new Pdfclw_Order();
+				$order  = wc_get_order( $order_id );
+				$orders->new_order( $order_id, $order );
 			}
 		}
 	}

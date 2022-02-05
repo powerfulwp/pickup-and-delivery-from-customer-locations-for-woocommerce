@@ -397,28 +397,6 @@ class Pdfclw_Admin
     }
     
     /**
-     * New order.
-     *
-     * @param int    $order_id order number.
-     * @param object $order order object.
-     */
-    public function new_order( $order_id, $order )
-    {
-        $pickup = new Pdfclw_Order();
-        if ( 'customer' == $pickup->pickup_type( '', $order ) ) {
-            do_action( 'pdfclw_new_order_pickup_from_customer', $order );
-        }
-        // Add coordinates to customer pickup location.
-        $pdfclw_pickup_geocode = get_option( 'pdfclw_pickup_geocode', '' );
-        
-        if ( '1' === $pdfclw_pickup_geocode ) {
-            $pickup = new Pdfclw_Order();
-            $pickup->set_pickup_geocode( $order_id );
-        }
-    
-    }
-    
-    /**
      * Plugin settings.
      *
      * @since 1.0.0
@@ -677,54 +655,6 @@ class Pdfclw_Admin
                 delete_post_meta( $post_id, $key );
             }
         }
-    }
-    
-    /**
-     * Save order meta.
-     *
-     * @param int $order_id order number.
-     * @return statement
-     */
-    public function process_shop_order_meta( $order_id )
-    {
-        // Verify this came from the our screen and with proper authorization,
-        // because save_post can be triggered at other times.
-        if ( !isset( $_POST['_pdfclw_pickup_address_1'] ) || !isset( $_POST['pdfclw_nonce'] ) || !wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['pdfclw_nonce'] ) ), basename( __FILE__ ) ) ) {
-            return $order_id;
-        }
-        $first_name = ( isset( $_POST['_pdfclw_pickup_first_name'] ) ? sanitize_text_field( wp_unslash( $_POST['_pdfclw_pickup_first_name'] ) ) : '' );
-        $last_name = ( isset( $_POST['_pdfclw_pickup_last_name'] ) ? sanitize_text_field( wp_unslash( $_POST['_pdfclw_pickup_last_name'] ) ) : '' );
-        $company = ( isset( $_POST['_pdfclw_pickup_company'] ) ? sanitize_text_field( wp_unslash( $_POST['_pdfclw_pickup_company'] ) ) : '' );
-        $address_1 = ( isset( $_POST['_pdfclw_pickup_address_1'] ) ? sanitize_text_field( wp_unslash( $_POST['_pdfclw_pickup_address_1'] ) ) : '' );
-        $address_2 = ( isset( $_POST['_pdfclw_pickup_address_2'] ) ? sanitize_text_field( wp_unslash( $_POST['_pdfclw_pickup_address_2'] ) ) : '' );
-        $city = ( isset( $_POST['_pdfclw_pickup_city'] ) ? sanitize_text_field( wp_unslash( $_POST['_pdfclw_pickup_city'] ) ) : '' );
-        $postcode = ( isset( $_POST['_pdfclw_pickup_postcode'] ) ? sanitize_text_field( wp_unslash( $_POST['_pdfclw_pickup_postcode'] ) ) : '' );
-        $country = ( isset( $_POST['_pdfclw_pickup_country'] ) ? sanitize_text_field( wp_unslash( $_POST['_pdfclw_pickup_country'] ) ) : '' );
-        $state = ( isset( $_POST['_pdfclw_pickup_state'] ) ? sanitize_text_field( wp_unslash( $_POST['_pdfclw_pickup_state'] ) ) : '' );
-        $array = array(
-            '_pdfclw_pickup_first_name' => $first_name,
-            '_pdfclw_pickup_last_name'  => $last_name,
-            '_pdfclw_pickup_company'    => $company,
-            '_pdfclw_pickup_address_1'  => $address_1,
-            '_pdfclw_pickup_address_2'  => $address_2,
-            '_pdfclw_pickup_city'       => $city,
-            '_pdfclw_pickup_postcode'   => $postcode,
-            '_pdfclw_pickup_country'    => $country,
-            '_pdfclw_pickup_state'      => $state,
-        );
-        
-        if ( '' !== $address_1 && '' !== $city ) {
-            // Update pickup location.
-            foreach ( $array as $key => $value ) {
-                update_post_meta( $order_id, $key, $value );
-            }
-        } else {
-            // Delete pickup location.
-            foreach ( $array as $key => $value ) {
-                delete_post_meta( $order_id, $key );
-            }
-        }
-    
     }
     
     /**
