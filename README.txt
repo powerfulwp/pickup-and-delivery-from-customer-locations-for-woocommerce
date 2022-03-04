@@ -1,11 +1,11 @@
 === Pickup & Delivery from Customer Locations for WooCommerce ===
-Contributors: powerfulwp
+Contributors: powerfulwp, freemius
 Donate link: https://powerfulwp.com
 Tags: pickup, checkout, woocommerce
 Requires at least: 4.5
 Requires PHP: 5.6
 Tested up to: 5.9
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -61,5 +61,9 @@ Enable pickup from customers for all products or specific products.
 = 1.0.0 =
 * Initial release.
 
+= 1.0.2
+* fix: Freemius SDK security fix.
+
 == Upgrade Notice ==
+* Freemius SDK security fix.
 
