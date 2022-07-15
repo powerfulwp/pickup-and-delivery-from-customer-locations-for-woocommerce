@@ -74,7 +74,7 @@ jQuery(function($) {
         };
 
         pdfclw_wc_country_select_select2();
-        $("#pickup-fields-wrapper").hide();
+        $("#pdfclw-pickup-form").hide();
         $(document.body).on('pdfclw_country_to_state_changed', function() {
             pdfclw_wc_country_select_select2();
         });
@@ -83,7 +83,7 @@ jQuery(function($) {
     /* State/Country select boxes */
     var pdfclw_states_json = wc_country_select_params.countries.replace(/&quot;/g, '"'),
         pdfclw_states = JSON.parse(pdfclw_states_json),
-        pdfclw_wrapper_selectors = '.pickup-fields-wrapper';
+        pdfclw_wrapper_selectors = '#pdfclw-pickup-form';
 
 
     $(document.body).on('change refresh', '.pickup_address select.country_to_state, .pickup_address input.country_to_state', function() {

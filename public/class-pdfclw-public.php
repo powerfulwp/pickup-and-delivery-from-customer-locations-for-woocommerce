@@ -98,7 +98,6 @@ class Pdfclw_Public {
 		 */
 
 		if ( is_checkout() ) {
-			wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/pdfclw-public.js', array( 'jquery' ), $this->version, false );
 			wp_enqueue_script( $this->plugin_name . '-country', plugin_dir_url( __FILE__ ) . 'js/pdfclw-public-country-select.js', array( 'jquery' ), $this->version, true );
 			wp_enqueue_script( $this->plugin_name . '-address', plugin_dir_url( __FILE__ ) . 'js/pdfclw-public-address-i18n.js', array( 'jquery' ), $this->version, true );
 		}
@@ -120,7 +119,11 @@ class Pdfclw_Public {
 			?>
 				</div>
 				<div class="pickup_address woocommerce-Address-title">
+
+				
+
 				<?php
+
 					// Show pickup option checkbox.
 				if ( '1' !== get_option( 'pdfclw_pickup_mandatory', '' ) ) {
 					?>
@@ -150,7 +153,11 @@ class Pdfclw_Public {
 						<?php
 				}
 				?>
+<div id="pdfclw-pickup-form">
+			<?php do_action( 'pdfclw_before_checkout_pickup_form', $checkout ); ?>
+
 			<div class="pickup-fields-wrapper" id="pickup-fields-wrapper"  >
+				
 				<?php
 
 					// Fields are based on billing/shipping country. Grab those values but ensure they are valid for the store before using.
@@ -182,7 +189,13 @@ class Pdfclw_Public {
 					}
 					woocommerce_form_field( $key, $field, $value );
 				}
+
 				?>
+
+				 
+
+			</div>
+			<?php do_action( 'pdfclw_after_checkout_pickup_form', $checkout ); ?>
 			</div>
 			<?php
 		}

@@ -39,9 +39,9 @@ jQuery(function($) {
     // Handle pickup checkbox
     $(document.body).on("change", '#pickup-from-different-address-checkbox', function() {
         if (this.checked) {
-            $("#pickup-fields-wrapper").show();
+            $("#pdfclw-pickup-form").show();
         } else {
-            $("#pickup-fields-wrapper").hide();
+            $("#pdfclw-pickup-form").hide();
         }
     });
 
