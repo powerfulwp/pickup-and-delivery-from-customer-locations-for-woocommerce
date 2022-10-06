@@ -5,7 +5,7 @@ Tags: pickup, checkout, woocommerce
 Requires at least: 4.5
 Requires PHP: 5.6
 Tested up to: 6.0
-Stable tag: 1.0.2
+Stable tag: 1.0.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -39,6 +39,7 @@ Enable pickup from customers for all products or specific products.
 ## SUPPORTED ON THE FOLLOWING PLUGINS
 * [Local Delivery Drivers for WooCommerce Premium](https://powerfulwp.com/local-delivery-drivers-for-woocommerce-premium/) plugin.
 * [Delivery Drivers manager Premium](https://powerfulwp.com/delivery-drivers-manager/) plugin.
+* [Autocomplete Address and Location Picker for WooCommerce](https://powerfulwp.com/autocomplete-address-and-location-picker-for-woocommerce-premium/) plugin.
 
 [SVG created by fontawesome - www.fontawesome.com](https://fontawesome.com/license)
 [People vector created by pch.vector – www.freepik.com](https://www.freepik.com/vectors/people)
@@ -68,6 +69,8 @@ Enable pickup from customers for all products or specific products.
 * tweak: New Action before pickup checkout form - pdfclw_before_checkout_pickup_form
 * tweak: New Action after pickup checkout form - pdfclw_after_checkout_pickup_form
 
+= 1.0.4
+* tweak: Get the checkout pickup address filter for drsfwp plugin.
 
 == Upgrade Notice ==
 
